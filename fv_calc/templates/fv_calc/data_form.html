@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% block title %}
+  {% if site == 'add' %}
+    Add Entry
+  {% else %}
+    Edit Entry
+  {% endif %}
+{% endblock %}
+{% block content %}
+<form method='POST' action=''>
+{% csrf_token %}
+{% for field in form %}
+  <div>{{field.label}}: {{field}}</div>
+{% endfor %}
+<input type='submit' value='Submit'>
+</form>
+{% endblock %}

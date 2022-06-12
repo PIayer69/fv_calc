@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+{% block title %}Entry preview{% endblock %}
+{% block content %}
+{{entry}}
+<ul>
+  <li>Production: {{entry.production}}</li>
+  <li>Sent: {{entry.sent}}</li>
+  <li>Retrieved: {{entry.retrieved}}</li>
+</ul>
+{% endblock %}

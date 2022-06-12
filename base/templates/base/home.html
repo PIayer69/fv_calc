@@ -1,11 +1,38 @@
 {% extends 'base/base.html' %}
 {% block title %}Home Page{% endblock %}
 {% block content %}
-HOME PAGE
 {% if request.user.is_authenticated %}
-<a href='{% url "add_data" %}'>Add data</a>
+<p><a href='{% url "add_data" %}'>New entry</a></p>
+<div>
+Your entries:
+<table>
+  <tr><td>Date</td><td>Production</td><td>Sent</td><td>Retrieved</td><td>Options</td></tr>
+  {% for entry in entries %}
+    <tr>
+    <td>{{entry.date}}</td><td>{{entry.production}}</td><td>{{entry.sent}}</td><td>{{entry.retrieved}}</td><td><a href='{% url "edit_data" entry.id %}'>Edit</a> <a href='{% url "delete_data" entry.id %}'>X</a></td>
+    </tr>
+  {% endfor %}
+</table>
+</div>
+<table>
+  <tr><td>Date</td><td>Production</td><td>Sent</td><td>Retrieved</td><td>Options</td></tr>
+  {% for year, months in sorted_e.items %}
+  {% if year == current_year %}
+    {% for month in months reversed %}
+      {% for m, entries in month.items %}
+        {% for entry in entries %}
+          <tr>
+          <td>{{entry.date}}</td><td>{{entry.production}}</td><td>{{entry.sent}}</td><td>{{entry.retrieved}}</td><td><a href='{% url "edit_data" entry.id %}'>Edit</a> <a href='{% url "delete_data" entry.id %}'>X</a></td>
+          </tr>
+        {% endfor %}
+  
+        <tr><td>Summary</td><td>Production</td><td>Sent</td><td>Retrieved</td><td>Options</td></tr>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+  {% endfor %}
+</table>
+{% else %}
+Start tracking your photovoltaics today!
 {% endif %}
-{% for entry in entries %}
-<p>{{entry}} <a href='{% url "delete_data" entry.id %}'>X</a><a href='{% url "edit_data" entry.id %}'>Edit</a></p>
-{% endfor %}
 {% endblock %}

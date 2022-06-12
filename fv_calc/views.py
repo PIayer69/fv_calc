@@ -3,7 +3,6 @@ from .forms import EntryForm
 from .models import EntryModel
 
 
-# Create your views here.
 def addData(request):
   if request.method == "POST":
     form = EntryForm(request.POST)
@@ -20,12 +19,18 @@ def addData(request):
   return render(request, 'fv_calc/data_form.html', context)
 
 
+def viewData(request, pk):
+  entry = EntryModel.objects.get(id=pk)
+  context = {'entry': entry}
+  return render(request, 'fv_calc/view_data.html', context)
+
 def editData(request, pk):
   entry = EntryModel.objects.get(id=pk)
-
   if request.method == "POST":
     entry = EntryForm(request.POST, instance=entry)
-    
+    if entry.is_valid:
+      entry.save()
+      return redirect('home')
   
   form = EntryForm(instance=entry)
   context = {
